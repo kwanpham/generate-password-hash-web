@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+ 
+   <head>
+      <meta charset="UTF-8">
+      <title>Hashing Password</title>
+   </head>
+   
+   <body>
+
+       
+      <h3>Hashing Password:</h3>
+       
+      <!-- MyUploadForm -->
+       
+      <form  method="get" action="/bcrypt">
+         Hashing algorithm:
+         <select id="selectorType">
+            <option th:each="item : ${math}" th:value="${item}" th:text="${item}"></option>
+         </select>
+
+         <br>
+
+         Password:
+         <br>
+         <input name="password" id="password" style="width:300px;"/>
+         <br/><br/>
+         <input type="button" id="btnHash" value="Hashing">
+      </form>
+
+   <br>
+   <p id="result"></p>
+
+
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+
+      $("#btnHash").click(function (e) {
+         let type = $('#selectorType').val();
+         let password = $('#password').val();
+
+         $.ajax({
+            type: 'GET',
+            url: '/hash',
+            data: {
+               type: type,
+               password: password
+            },
+            success: function (response) {
+               $('#result').text(response);
+               console.log(response);
+            },
+            error: function (error) {
+               $('#result').text(error);
+               console.log(error);
+            }
+         });
+      });
+
+   </script>
+   </body>
+</html>
