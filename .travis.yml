@@ -41,6 +41,7 @@ deploy:
   skip_cleanup: true
   script:
   - rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/target/$FILE_NAME root@104.199.247.193:/home/java
+  - ssh root@104.199.247.193
   - cd /home/java
   - java -jar $FILE_NAME
   on:
