@@ -46,7 +46,7 @@ deploy:
       branch: master
   - provider: script
     skip_cleanup: true
-    script: ssh -i deploy_rsa root@104.199.247.193 'bash ./cibuild.sh'
+    script: bash ./cibuild.sh
     on:
       branch: master
 
