@@ -13,10 +13,10 @@ cache:
     - $HOME/.m2
 
 install:
-    - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+    - mvn package -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
-script:
-    - mvn test
+#script:
+#    - mvn test
 
 
 notifications:
@@ -31,22 +31,25 @@ addons:
   ssh_known_hosts: 104.199.247.193
   
 before_deploy:
-- cp deploy_rsa /tmp/deploy_rsa
+
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy_rsa
-- ssh-add /tmp/deploy_rsa
+- ssh-add deploy_rsa
 
 deploy:
   provider: script
   skip_cleanup: true
-  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/target root@104.199.247.193:/home/java
+  script:
+  - rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/target/$FILE_NAME.jar root@104.199.247.193:/home/java
+  - cd /home/java
+  - java -jar $FILE_NAME.jar
   on:
     branch: master
 
-after_success:
-- echo $TRAVIS_BUILD_DIR
-- pwd
-- ls
+#after_success:
+#- echo $TRAVIS_BUILD_DIR
+#- pwd
+#- ls
 
 #deploy:
 #  - provider: script
