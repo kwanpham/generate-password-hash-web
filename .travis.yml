@@ -34,16 +34,15 @@ before_deploy:
 
 - eval "$(ssh-agent -s)"
 - chmod 600 deploy_rsa
+- chmod 700 deploy/cibuild.sh
 - ssh-add deploy_rsa
 
 deploy:
   provider: script
-  skip_cleanup: true
+  skip_cleanup: false
   script:
   - rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/target/$FILE_NAME root@104.199.247.193:/home/java
-  - ssh -i deploy_rsa root@104.199.247.193
-  - cd /home/java
-  - java -jar $FILE_NAME
+  - bash deploy/cibuild.sh
   on:
     branch: master
 
