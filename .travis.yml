@@ -42,7 +42,7 @@ deploy:
   skip_cleanup: false
   script:
   - rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/target/$FILE_NAME root@104.199.247.193:/home/java
-  - bash deploy/cibuild.sh
+  - bash ./cibuild.sh
   on:
     branch: master
 
