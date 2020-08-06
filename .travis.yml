@@ -3,12 +3,10 @@ language: java
 jdk:
   - oraclejdk8
 
-# line 9 resolved an issue where the Travis server would
-# try to connect to my remote using ssh-dss, which then caused my
-# remote server to puke and demand a password, causing the build
-# to time out
-dist: trusty
-sudo: false
+branches:
+  only:
+    - master
+
 
 scripts: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
@@ -24,11 +22,10 @@ notifications:
 
 
 after_success:
-  on:
-    branch: master
+  - echo $TRAVIS_BUILD_DIR
   - pwd
   - ls -l
-
+  - ssh -i deploy/104.199.247.193.ppk root@104.199.247.193
 #deploy:
 #  - provider: script
 #    skip_cleanup: true
