@@ -34,7 +34,7 @@ before_deploy:
 
 - eval "$(ssh-agent -s)"
 - chmod 600 deploy_rsa
-- chmod +x deploy/cibuild.sh
+- chmod 700 deploy/cibuild.sh
 - ssh-add deploy_rsa
 
 deploy:
