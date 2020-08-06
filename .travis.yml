@@ -13,10 +13,10 @@ cache:
     - $HOME/.m2
 
 install:
-    - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 script:
-    - mvn test
+  - mvn test
 
 
 notifications:
@@ -29,22 +29,26 @@ notifications:
 
 addons:
   ssh_known_hosts: 104.199.247.193
-  
+
 before_deploy:
 
-- eval "$(ssh-agent -s)"
-- chmod 600 deploy_rsa
-- chmod 700 cibuild.sh
-- ssh-add deploy_rsa
+  - eval "$(ssh-agent -s)"
+  - chmod 600 deploy_rsa
+  - chmod 700 cibuild.sh
+  - ssh-add deploy_rsa
 
 deploy:
-  provider: script
-  skip_cleanup: true
-  script:
-  - rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/target/$FILE_NAME root@104.199.247.193:/home/java
-  - ssh -i deploy_rsa root@104.199.247.193 'bash ./cibuild.sh'
-  on:
-    branch: master
+  - provider: script
+    skip_cleanup: true
+    script:
+      - rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/target/$FILE_NAME root@104.199.247.193:/home/java
+    on:
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: ssh -i deploy_rsa root@104.199.247.193 'bash ./cibuild.sh'
+    on:
+      branch: master
 
 #after_success:
 #- echo $TRAVIS_BUILD_DIR
