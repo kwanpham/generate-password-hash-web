@@ -31,6 +31,7 @@ addons:
   ssh_known_hosts: 104.199.247.193
   
 before_deploy:
+- cp deploy_rsa /tmp/deploy_rsa
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy_rsa
 - ssh-add /tmp/deploy_rsa
