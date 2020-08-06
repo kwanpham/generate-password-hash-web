@@ -40,9 +40,9 @@ deploy:
   provider: script
   skip_cleanup: true
   script:
-  - rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/target/$FILE_NAME.jar root@104.199.247.193:/home/java
+  - rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/target/$FILE_NAME root@104.199.247.193:/home/java
   - cd /home/java
-  - java -jar $FILE_NAME.jar
+  - java -jar $FILE_NAME
   on:
     branch: master
 
