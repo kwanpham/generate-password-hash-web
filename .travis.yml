@@ -7,6 +7,10 @@ branches:
   only:
     - master
 
+sudo: false
+cache:
+  directories:
+    - $HOME/.m2
 
 install:
     - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
@@ -27,7 +31,6 @@ addons:
   ssh_known_hosts: 104.199.247.193
   
 before_deploy:
-- openssl aes-256-cbc -K $encrypted_<...>_key -iv $encrypted_<...>_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy_rsa
 - ssh-add /tmp/deploy_rsa
@@ -42,7 +45,7 @@ deploy:
 after_success:
 - echo $TRAVIS_BUILD_DIR
 - pwd
-- ls -l
+- ls
 
 #deploy:
 #  - provider: script
